@@ -1,0 +1,25 @@
+name: Clean up build artifacts
+description: Cleans up (i.e., deletes) all build artifacts for the repo
+author: David G. Moore, Jr., <david@dgmjr.io>
+
+branding:
+  icon: delete
+  color: red
+
+inputs:
+  token: 
+    description: The GitHub token or PAT to use to access the build artifacts
+    required: false
+    default: ${{ secrets.GITHUB_TOKEN }}
+
+runs:
+  using: composite
+  steps:
+    - id: get-artifacts 
+      uses: MichaelMelena/list-artifacts@v1
+      with:
+        GITHUB_TOKEN: ${{ inputs.token }}
+    - uses: MichaelMelena/remove-artifacts@v1
+      with:
+        artifacts: ${{ steps.get-artifacts.outputs.artifacts }}
+        GITHUB_TOKEN: ${{ inputs.token }}
