@@ -9,7 +9,8 @@ branding:
 inputs:
   token: 
     description: The GitHub token or PAT to use to access the build artifacts
-    required: true
+    required: false
+    default: ${{ github.token }}
 
 runs:
   using: composite
